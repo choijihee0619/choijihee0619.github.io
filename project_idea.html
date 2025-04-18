@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BACyouHome - 음주 후 안전한 귀가 도우미</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f7f9fc;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .section {
+            min-height: 100vh;
+            padding: 6rem 2rem 4rem 2rem; /* 상단 패딩 증가하여 네비게이션바 공간 확보 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            scroll-margin-top: 4rem; /* 네비게이션바 높이 고려 */
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #5271ff;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            padding: 0 1rem;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            color: #5271ff;
+            margin-top: 2rem;
+            margin-bottom: 1.2rem;
+            padding: 0 1rem;
+        }
+        
+        h3 {
+            font-size: 1.3rem;
+            color: #5271ff;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            padding: 0 1rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            padding: 0 1rem;
+        }
+        
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+            padding-right: 1rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight {
+            background-color: #ffe0f0;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .fixed-nav {
+            position: fixed;
+            top: 1rem;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.95); /* 배경 불투명도 증가 */
+            padding: 0.8rem;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        
+        .nav-button {
+            background-color: #5271ff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(82, 113, 255, 0.4);
+        }
+        
+        .chart-container {
+            margin: 2rem auto;
+            max-width: 800px;
+            height: auto; /* 고정 높이 대신 자동 조정 */
+            min-height: 300px; /* 최소 높이 설정 */
+            padding: 1rem;
+            overflow: visible; /* 내용이 넘치지 않도록 설정 */
+        }
+        
+        .flex-container {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start; /* 위쪽 정렬로 변경 */
+            margin: 2rem 0;
+            flex-wrap: wrap; /* 작은 화면에서 자동 줄바꿈 */
+        }
+        
+        .img-container {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+        
+        .img-container img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .img-container svg {
+            max-width: 100%;
+            height: auto; /* SVG 비율 유지 */
+        }
+        
+        .caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.8rem;
+            padding: 0 1rem;
+        }
+        
+        .bubble {
+            background-color: #f0f5ff;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 1.5rem 1rem; /* 좌우 마진 추가 */
+            border-left: 5px solid #5271ff;
+        }
+        
+        .device-mockup {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .device {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5271ff, #ff66b3);
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .chain {
+            width: 200px;
+            height: 10px;
+            background: linear-gradient(90deg, transparent, #ddd, transparent);
+            margin: 0 auto;
+            border-radius: 5px;
+        }
+
+        .step-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            padding: 0 1rem;
+        }
+        
+        .step-box {
+            flex: 1;
+            min-width: 200px;
+            background-color: #f0f5ff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 0.5rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: #5271ff;
+            color: white;
+            border-radius: 50%;
+            line-height: 40px;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+        
+        .animate-bounce {
+            animation: bounce 2s ease infinite;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #5271ff;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            overflow-x: auto; /* 작은 화면에서 가로 스크롤 */
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        
+        .comparison-table th {
+            background-color: #5271ff;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .app-screens {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+        
+        .app-screen {
+            width: 180px;
+            height: 360px;
+            background-color: #f8f8f8;
+            border-radius: 20px;
+            border: 10px solid #333;
+            overflow: hidden;
+            margin: 1rem;
+        }
+        
+        .app-content {
+            height: 100%;
+            background-color: white;
+            padding: 1rem 0.5rem;
+            font-size: 0.7rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .app-header {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #5271ff;
+        }
+        
+        .app-button {
+            background-color: #5271ff;
+            color: white;
+            border-radius: 20px;
+            padding: 0.3rem;
+            text-align: center;
+            margin: 0.3rem 0;
+            font-size: 0.7rem;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+        
+        .stat-box {
+            width: 200px;
+            padding: 1.5rem;
+            background-color: #f0f5ff;
+            border-radius: 15px;
+            text-align: center;
+            margin: 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #5271ff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .alert-box {
+            background-color: #ffe8e8;
+            border-left: 5px solid #ff5858;
+            padding: 1rem;
+            margin: 1.5rem 1rem; /* 좌우 마진 추가 */
+            border-radius: 5px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #f0f5ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .divider {
+            height: 5px;
+            width: 100px;
+            background: linear-gradient(90deg, #5271ff, #ff66b3);
+            margin: 3rem auto;
+            border-radius: 5px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* SVG 내 텍스트가 잘리지 않도록 조정 */
+        svg text {
+            dominant-baseline: middle;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 12px; /* 기본 글자 크기 설정 */
+        }
+        
+        /* 외부 XML 요소에 대한 스타일 설정 */
+        foreignObject div {
+            overflow: visible;
+            width: 100%;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        
+        @media (max-width: 768px) {
+            .flex-container {
+                flex-direction: column;
+            }
+            
+            .nav-button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            .fixed-nav {
+                top: 0.5rem;
+                padding: 0.5rem;
+            }
+            
+            .chart-container {
+                padding: 0;
+                min-height: 250px;
+            }
+            
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fixed-nav">
+        <a href="#intro" class="nav-button">소개</a>
+        <a href="#idea" class="nav-button">아이디어</a>
+        <a href="#status" class="nav-button">현황</a>
+        <a href="#comparison" class="nav-button">차별점</a>
+        <a href="#hardware" class="nav-button">하드웨어</a>
+        <a href="#software" class="nav-button">소프트웨어</a>
+        <a href="#service" class="nav-button">서비스</a>
+        <a href="#features" class="nav-button">주요 기능</a>
+        <a href="#expect" class="nav-button">기대효과</a>
+    </div>
+
+    <!-- 섹션 1: 메인 타이틀 -->
+    <section class="section" id="intro">
+        <div class="container">
+            <h1 style="font-size: 3rem; margin-top: 3rem;">BACyouHome</h1>
+            <h2 style="text-align: center; color: #666; font-weight: 400;">음주 전후의 안전한 귀가를 도와주는 AI 기반 솔루션 <br>발표자 최지희</h2>
+            
+            <div style="text-align: center; margin: 4rem 0;">
+                <div class="device-mockup">
+                    <div class="chain"></div>
+                    <div class="device animate-bounce">BACyouHome</div>
+                </div>
+                <p class="caption">목걸이형 음주 측정 디바이스와 AI 기반 앱으로 구성된 안전 귀가 솔루션</p>
+            </div>
+            
+            <div class="bubble">
+                <p style="text-align: center; font-size: 1.2rem;"><i>"오늘은 한 병만!"</i><br><i>"막차 전에 간다!"</i></p>
+                <p style="text-align: center;">음주 전의 결심, 실제로 지키고 계신가요?</p>
+            </div>
+        </div>
+    </section>
+
+    
+<script>
+    // 부드러운 스크롤 기능
+    document.querySelectorAll('.nav-button').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            window.scrollTo({
+                top: targetElement.offsetTop,
+                behavior: 'smooth'
+            });
+        });
+    });
+    
+    // 스크롤 위치에 따른 네비게이션 하이라이트
+    window.addEventListener('scroll', function() {
+        const sections = document.querySelectorAll('.section');
+        let currentSectionId = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            
+            if (window.pageYOffset >= sectionTop - 100 && 
+                window.pageYOffset < sectionTop + sectionHeight - 100) {
+                currentSectionId = section.getAttribute('id');
+            }
+        });
+        
+        document.querySelectorAll('.nav-button').forEach(button => {
+            const buttonHref = button.getAttribute('href').substring(1);
+            
+            if (buttonHref === currentSectionId) {
+                button.style.backgroundColor = '#ff66b3';
+            } else {
+                button.style.backgroundColor = '#5271ff';
+            }
+        });
+    });
+</script>
+</body>
+</html>
+
+    <!-- 섹션 2: 아이디어 발상계기 -->
+    <section class="section" id="idea">
+        <div class="container">
+            <h1>아이디어 발상계기</h1>
+            
+            <div class="flex-container" style="flex-wrap: wrap;">
+                <div style="flex: 3; min-width: 300px;">
+                    <p>"<span class="highlight">오늘은 한 병만!</span>" "<span class="highlight">막차 전에 간다!</span>"고 다짐하던 '최'모씨...</p>
+                    <p>그러나 실제 음주 후에는 판단력이 흐려져 계획대로 귀가하지 못하는 일이 빈번했습니다.</p>
+                    <p>이에 따라 <strong>음주 전의 결심을 지켜주고, 안전한 귀가를 유도하는 서비스</strong>가 필요하다는 인식에서 BACyouHome이 탄생했습니다.</p>
+                    
+                    <div class="bubble">
+                        <h3>취기 정도는 복합적인 요소로 결정됩니다</h3>
+                        <ul>
+                            <li>단순한 알코올 농도 수치만으로 판단하기 어려움</li>
+                            <li>개인의 체질, 피로도, 감정 상태 등 다양한 요소에 영향</li>
+                            <li><span class="highlight">AI를 통한 감정 및 행동 분석</span>이 필요</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="img-container" style="flex: 2; min-width: 250px;">
+                    <img src="BAC.png" alt="음주 전후 판단력 차이 그래프">
+                    <p class="caption">음주 전후의 인지기능 및 판단력 차이 (출처: 'Do Voice Recordings Reveal whether a Person Is Intoxicated?', NCBI, 2023)</p>
+                </div>
+            </div>
+            
+            <h2>음주와 인지기능의 관계</h2>
+            <div class="chart-container">
+                <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; max-height: 450px;">
+                    <!-- X축과 Y축 -->
+                    <line x1="80" y1="350" x2="750" y2="350" stroke="#333" stroke-width="2" />
+                    <line x1="80" y1="50" x2="80" y2="350" stroke="#333" stroke-width="2" />
+                    
+                    <!-- X축 라벨 -->
+                    <text x="80" y="380" text-anchor="middle" font-size="14">0%</text>
+                    <text x="210" y="380" text-anchor="middle" font-size="14">0.05%</text>
+                    <text x="340" y="380" text-anchor="middle" font-size="14">0.08%</text>
+                    <text x="470" y="380" text-anchor="middle" font-size="14">0.10%</text>
+                    <text x="600" y="380" text-anchor="middle" font-size="14">0.15%</text>
+                    <text x="730" y="380" text-anchor="middle" font-size="14">0.20%</text>
+                    
+                    <!-- Y축 라벨 -->
+                    <text x="70" y="350" text-anchor="end" font-size="14">0%</text>
+                    <text x="70" y="275" text-anchor="end" font-size="14">25%</text>
+                    <text x="70" y="200" text-anchor="end" font-size="14">50%</text>
+                    <text x="70" y="125" text-anchor="end" font-size="14">75%</text>
+                    <text x="70" y="50" text-anchor="end" font-size="14">100%</text>
+                    
+                    <!-- 축 제목 -->
+                    <text x="400" y="420" text-anchor="middle" font-size="16" font-weight="bold">혈중 알코올 농도</text>
+                    <text x="25" y="200" text-anchor="middle" font-size="16" font-weight="bold" transform="rotate(-90 25 200)">인지기능 수준</text>
+                    
+                    <!-- 데이터 선 - 인지기능 -->
+                    <path d="M80,50 L210,100 L340,175 L470,250 L600,310 L730,340" fill="none" stroke="#5271ff" stroke-width="3" />
+                    
+                    <!-- 데이터 포인트 - 인지기능 -->
+                    <circle cx="80" cy="50" r="5" fill="#5271ff" />
+                    <circle cx="210" cy="100" r="5" fill="#5271ff" />
+                    <circle cx="340" cy="175" r="5" fill="#5271ff" />
+                    <circle cx="470" cy="250" r="5" fill="#5271ff" />
+                    <circle cx="600" cy="310" r="5" fill="#5271ff" />
+                    <circle cx="730" cy="340" r="5" fill="#5271ff" />
+                    
+                    <!-- 영역 설명 -->
+                    <rect x="340" y="350" width="130" height="4" fill="#ffcc00" />
+                    <text x="405" y="375" text-anchor="middle" font-size="12" fill="#333">음주운전 적발 기준</text>
+                </svg>
+                <p class="caption">혈중 알코올 농도에 따른 인지기능 저하 그래프 (출처: 질병관리청, '성인 음주행동 변화 연구', 2023)</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 섹션 3: 현재 실태 -->
+    <section class="section" id="status">
+        <div class="container">
+            <h1>음주 관련 현황과 문제점</h1>
+            
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-number">30.8%</div>
+                    <div class="stat-label">성인 고위험 음주율<br>(출처: 질병관리청, 2023)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">8,712건</div>
+                    <div class="stat-label">음주 관련 사고 건수<br>(출처: 도로교통공단, 2023)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">58%</div>
+                    <div class="stat-label">귀가 중 안전 불안감<br>호소 비율<br>(출처: 통계청, 2023.12)</div>
+                </div>
+            </div>
+            
+            <h2>타겟 사용자층</h2>
+            <div class="chart-container">
+                <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; max-height: 450px;">
+                    <!-- 남성 음주율 데이터 -->
+                    <rect x="100" y="80" width="80" height="270" fill="#3b82f6" opacity="0.8" />
+                    <rect x="200" y="50" width="80" height="300" fill="#3b82f6" opacity="0.8" />
+                    <rect x="300" y="100" width="80" height="250" fill="#3b82f6" opacity="0.8" />
+                    <rect x="400" y="150" width="80" height="200" fill="#3b82f6" opacity="0.8" />
+                    <rect x="500" y="180" width="80" height="170" fill="#3b82f6" opacity="0.8" />
+                    
+                    <!-- 여성 음주율 데이터 -->
+                    <rect x="100" y="150" width="80" height="200" fill="#ec4899" opacity="0.8" />
+                    <rect x="200" y="100" width="80" height="250" fill="#ec4899" opacity="0.8" />
+                    <rect x="300" y="180" width="80" height="170" fill="#ec4899" opacity="0.8" />
+                    <rect x="400" y="230" width="80" height="120" fill="#ec4899" opacity="0.8" />
+                    <rect x="500" y="250" width="80" height="100" fill="#ec4899" opacity="0.8" />
+                    
+                    <!-- X축 -->
+                    <line x1="50" y1="350" x2="650" y2="350" stroke="#333" stroke-width="2" />
+                    
+                    <!-- Y축 -->
+                    <line x1="50" y1="50" x2="50" y2="350" stroke="#333" stroke-width="2" />
+                    
+                    <!-- X축 라벨 -->
+                    <text x="140" y="380" text-anchor="middle" font-size="14">20대</text>
+                    <text x="240" y="380" text-anchor="middle" font-size="14">30대</text>
+                    <text x="340" y="380" text-anchor="middle" font-size="14">40대</text>
+                    <text x="440" y="380" text-anchor="middle" font-size="14">50대</text>
+                    <text x="540" y="380" text-anchor="middle" font-size="14">60대+</text>
+                    
+                    <!-- Y축 라벨 -->
+                    <text x="35" y="350" text-anchor="end" font-size="14">0%</text>
+                    <text x="35" y="275" text-anchor="end" font-size="14">25%</text>
+                    <text x="35" y="200" text-anchor="end" font-size="14">50%</text>
+                    <text x="35" y="125" text-anchor="end" font-size="14">75%</text>
+                    <text x="35" y="50" text-anchor="end" font-size="14">100%</text>
+                    
+                    <!-- 범례 -->
+                    <rect x="650" y="150" width="20" height="20" fill="#3b82f6" opacity="0.8" />
+                    <text x="675" y="165" font-size="14" dominant-baseline="middle">남성</text>
+                    
+                    <rect x="650" y="180" width="20" height="20" fill="#ec4899" opacity="0.8" />
+                    <text x="675" y="195" font-size="14" dominant-baseline="middle">여성</text>
+                    
+                    <!-- 타이틀 -->
+                    <text x="350" y="20" text-anchor="middle" font-size="18" font-weight="bold">연령대별 고위험 음주율</text>
+                </svg>
+                <p class="caption">남성은 30-40대, 여성은 20-30대에서 고위험 음주율이 높게 나타남 <br>(출처: 질병관리청, '남자 40-50대, 여자 20-30대 음주행태 개선 필요', 2023)</p>
+            </div>
+            
+            <div class="alert-box">
+                <h3>주요 음주 후 위험 요소</h3>
+                <ol>
+                    <li><strong>음주운전:</strong> 매년 8,700건 이상의 음주 관련 사고 발생</li>
+                    <li><strong>취객 대상 범죄:</strong> 취약한 상태를 노린 강도, 성범죄 등 발생 위험</li>
+                    <li><strong>낙상사고:</strong> 음주 후 균형감각 저하로 인한 사고</li>
+                    <li><strong>분실 및 금전 피해:</strong> 판단력 저하로 인한 소지품 분실, 과도한 지출</li>
+                    <li><strong>길 잃음:</strong> 방향감각 상실로 인한 위험지역 진입 또는 장시간 배회</li>
+                </ol>
+            </div>
+            
+            <h3>주요 타겟층</h3>
+            <ul>
+                <li><span class="highlight">여성</span>: 귀가 시 안전에 대한 불안감이 높은 집단</li>
+                <li><span class="highlight">20~30대 청년층</span>: 사회활동과 음주 빈도가 높은 집단</li>
+                <li><span class="highlight">중장년층</span>: 업무 관련 음주 비중이 높고 건강 리스크가 증가하는 집단</li>
+            </ul>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 섹션 4: 선행연구 및 차별점 -->
+    <section class="section" id="comparison">
+        <div class="container">
+            <h1>선행연구 및 서비스 차별점</h1>
+            
+            <h2>기존 음주 관련 서비스 현황</h2>
+            <div class="comparison-table">
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>기존 솔루션</th>
+                            <th>한계점</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Breathalyzer 기반 앱</td>
+                            <td>음주 수치 측정 및 기록</td>
+                            <td>단순 측정에 그침, 사용자 행동 유도 부재</td>
+                        </tr>
+                        <tr>
+                            <td>GPS 기반 귀가 서비스</td>
+                            <td>위치 공유 및 안전 귀가 경로 안내</td>
+                            <td>음주 상태 감지 기능 없음</td>
+                        </tr>
+                        <tr>
+                            <td>안심귀가 앱</td>
+                            <td>긴급상황 신고, 귀가 알림</td>
+                            <td>음주 특화 기능 부재, 사전 예방 기능 약함</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h2>BACyouHome의 차별점</h2>
+            <div class="step-container">
+                <div class="step-box">
+                    <div class="step-number">1</div>
+                    <h3>통합 솔루션</h3>
+                    <p>하드웨어(목걸이형 디바이스)와 소프트웨어(앱)의 유기적 결합</p>
+                </div>
+                <div class="step-box">
+                    <div class="step-number">2</div>
+                    <h3>AI 기반 분석</h3>
+                    <p>음성, 타이핑, 얼굴 인식 등 <br>다각적데이터로 취기 정도 판단</p>
+                </div>
+                <div class="step-box">
+                    <div class="step-number">3</div>
+                    <h3>전체 과정 케어</h3>
+                    <p>음주 전 → 음주 중 → 음주 후 전 과정의 안전 관리</p>
+                </div>
+            </div>
+            
+            <div class="img-container">
+                <svg viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; max-height: 250px;">
+                    <!-- 프로세스 화살표 -->
+                    <rect x="50" y="100" width="200" height="80" rx="10" fill="#f0f5ff" stroke="#5271ff" stroke-width="2" />
+                    <text x="150" y="145" text-anchor="middle" font-size="16" font-weight="bold">사용자 경험 기반 감지</text>
+                    
+                    <polygon points="270,140 290,130 290,150" fill="#5271ff" />
+                    <line x1="250" y1="140" x2="290" y2="140" stroke="#5271ff" stroke-width="2" />
+                    
+                    <rect x="300" y="100" width="200" height="80" rx="10" fill="#f0f5ff" stroke="#5271ff" stroke-width="2" />
+                    <text x="400" y="145" text-anchor="middle" font-size="16" font-weight="bold">행동 유도</text>
+                    
+                    <polygon points="520,140 540,130 540,150" fill="#5271ff" />
+                    <line x1="500" y1="140" x2="540" y2="140" stroke="#5271ff" stroke-width="2" />
+                    
+                    <rect x="550" y="100" width="200" height="80" rx="10" fill="#f0f5ff" stroke="#5271ff" stroke-width="2" />
+                    <text x="650" y="145" text-anchor="middle" font-size="16" font-weight="bold">안전 확보</text>
+                    
+                    <!-- 상세 설명 -->
+                    <text x="150" y="200" text-anchor="middle" font-size="12">센서, AI 분석으로<br>사용자 상태 파악</text>
+                    <text x="400" y="200" text-anchor="middle" font-size="12">알림, 가이드로<br>올바른 행동 촉진</text>
+                    <text x="650" y="200" text-anchor="middle" font-size="12">안전한 귀가 및<br>사후 보호</text>
+                </svg>
+                <p class="caption">BACyouHome의 차별화된 3단계 프로세스</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 섹션 5: 하드웨어 구성 -->
+    <section class="section" id="hardware">
+        <div class="container">
+            <h1>하드웨어 구성</h1>
+            
+            <div class="flex-container" style="flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 300px;">
+                    <h2>목걸이형 디바이스</h2>
+                    <p>휴대가 쉽고, 비교적 정확한 측정을 위해 입 주변에 착용하기 쉬운 <span class="highlight">목걸이형 착용 디바이스</span>로 설계되었습니다.</p>
+                    
+                    <h3>주요 구성 요소</h3>
+                    <ul>
+                        <li><strong>MQ-3 알코올 센서:</strong> 호흡 내 알코올 농도 측정</li>
+                        <li><strong>가속도 센서:</strong> 사용자의 비틀거림, 과도한 흔들림, 낙상 감지</li>
+                        <li><strong>온도 센서:</strong> 체온 변화 및 주변 환경 모니터링</li>
+                        <li><strong>마이크로컨트롤러:</strong> 라즈베리파이 또는 ESP32 활용</li>
+                        <li><strong>블루투스 모듈:</strong> 스마트폰 앱과 연동</li>
+                    </ul>
+                    
+                    <div class="bubble">
+                        <h3>디자인 컨셉</h3>
+                        <p>- 작고 심플한 디자인 <br>(물방울 또는 링 형태의 팬던트)</p>
+                        <p>- 일상 액세서리처럼 자연스러운 착용감</p>
+                        <p>- 배터리 효율성을 고려한 저전력 설계</p>
+                    </div>
+                </div>
+                
+                <div style="flex: 1; min-width: 300px;">
+                    <div class="device-mockup" style="margin-top: 2rem;">
+                        <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; max-height: 400px;">
+                            <!-- 목걸이 체인 -->
+                            <path d="M150,20 Q50,80 50,160 Q50,240 150,300 Q250,240 250,160 Q250,80 150,20" fill="none" stroke="#ddd" stroke-width="3" />
+
+                            <!-- 팬던트 디자인 (군인 인식표 형태) - 아래로 이동 -->
+                            <rect x="130" y="270" width="40" height="70" rx="5" ry="5" fill="url(#gradient1)" stroke="#5271ff" stroke-width="2" />
+                            <rect x="135" y="275" width="30" height="56" rx="3" ry="3" fill="#f0f5ff" stroke="#5271ff" stroke-width="1" />
+
+                            <!-- 센서 표시 - 아래로 이동 -->
+                            <circle cx="150" cy="300" r="7" fill="#fff" stroke="#5271ff" stroke-width="1" />
+                            <text x="150" y="303" text-anchor="middle" font-size="6" fill="#5271ff">MQ-3</text>
+
+                            <!-- LED 표시 - 아래로 이동 -->
+                            <circle cx="150" cy="280" r="4" fill="#ff66b3" />
+
+                            <!-- 그라데이션 정의 -->
+                            <defs>
+                                <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#5271ff;stop-opacity:0.8" />
+                                    <stop offset="100%" style="stop-color:#ff66b3;stop-opacity:0.8" />
+                                </linearGradient>
+                            </defs>
+
+                            <!-- 설명선 - 아래로 이동 -->
+                            <line x1="180" y1="300" x2="240" y2="300" stroke="#333" stroke-width="1" />
+                            <text x="245" y="303" font-size="10">알코올 센서</text>
+
+                            <line x1="180" y1="280" x2="240" y2="280" stroke="#333" stroke-width="1" />
+                            <text x="240" y="283" font-size="10">상태 표시 LED</text>
+
+                            <!-- 크기 표시 - 아래로 이동 -->
+                            <text x="150" y="360" text-anchor="middle" font-size="12">크기: 약 3cm x 5cm</text>
+                            <text x="150" y="380" text-anchor="middle" font-size="12">무게: 약 30g</text>
+                        </svg>
+                    </div>
+                    <p class="caption">BACyouHome 목걸이형 디바이스 컨셉 디자인<br>(Tiffany & Co. 디자인 참고)</p>
+                </div>
+            </div>
+            
+            <div class="img-container">
+                <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; max-height: 300px;">
+                    <!-- 내부 구성도 -->
+                    <rect x="50" y="50" width="700" height="200" rx="10" fill="#f0f5ff" stroke="#5271ff" stroke-width="2" />
+                    
+                    <!-- 센서 부분 -->
+                    <rect x="100" y="100" width="120" height="100" rx="5" fill="#ffe0f0" stroke="#ff66b3" stroke-width="1" />
+                    <text x="160" y="130" text-anchor="middle" font-size="14" font-weight="bold">센서 모듈</text>
+                    <text x="160" y="155" text-anchor="middle" font-size="12">- MQ-3 알코올</text>
+                    <text x="160" y="175" text-anchor="middle" font-size="12">- 가속도/자이로</text>
+                    
+                    <!-- 마이크로컨트롤러 -->
+                    <rect x="290" y="100" width="120" height="100" rx="5" fill="#e6f0ff" stroke="#5271ff" stroke-width="1" />
+                    <text x="350" y="130" text-anchor="middle" font-size="14" font-weight="bold">마이크로컨트롤러</text>
+                    <text x="350" y="155" text-anchor="middle" font-size="12">- ESP32</text>
+                    <text x="350" y="175" text-anchor="middle" font-size="12">- 저전력 모드</text>
+                    
+                    <!-- 통신 모듈 -->
+                    <rect x="480" y="100" width="120" height="100" rx="5" fill="#e0f0e0" stroke="#34d399" stroke-width="1" />
+                    <text x="540" y="130" text-anchor="middle" font-size="14" font-weight="bold">통신 모듈</text>
+                    <text x="540" y="155" text-anchor="middle" font-size="12">- 블루투스 5.0</text>
+                    <text x="540" y="175" text-anchor="middle" font-size="12">- 저전력 통신</text>
+                    
+                    <!-- 배터리 -->
+                    <rect x="670" y="100" width="30" height="100" rx="5" fill="#f0f0e0" stroke="#d4b106" stroke-width="1" />
+                    <text x="685" y="150" text-anchor="middle" font-size="14" font-weight="bold" transform="rotate(-90 685 150)">배터리</text>
+                    
+                    <!-- 연결선 -->
+                    <line x1="220" y1="150" x2="290" y2="150" stroke="#333" stroke-width="1" stroke-dasharray="5,3" />
+                    <line x1="410" y1="150" x2="480" y2="150" stroke="#333" stroke-width="1" stroke-dasharray="5,3" />
+                    <line x1="600" y1="150" x2="670" y2="150" stroke="#333" stroke-width="1" stroke-dasharray="5,3" />
+                </svg>
+                <p class="caption">BACyouHome 디바이스 내부 구성도 (출처: SolderedElectronics/Alcohol-Ethanol-sensor-MQ3-breakout-hardware-design, 2024)</p>
+            </div>
+            
+            <div class="bubble">
+                <h3>알코올 측정 정확도</h3>
+                <p>MQ-3 센서는 연구에 따르면 0.05%~0.15% 범위의 혈중 알코올 농도에서 약 92% 정확도로 측정이 가능합니다. 이는 법적 음주 기준(0.08%)을 감지하기에 충분한 정확도입니다.</p>
+                <p>사용자의 개인 차이를 고려하여 AI 기반 보정 및 다중 센서 데이터 활용으로 정확도를 향상시킵니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 섹션 6: 소프트웨어(앱) 구성 -->
+    <section class="section" id="software">
+        <div class="container">
+            <h1>소프트웨어(앱) 구성</h1>
+            
+<!-- 최종 수정된 앱 스크린 코드 -->
+<div class="app-screens">
+    <div class="app-screen">
+        <div class="app-content">
+            <div class="app-header">음주 시작 설정</div>
+            <p style="text-align: center; margin: 0.0001rem 0;">목표 설정</p>
+            <div class="app-button">오늘의 주량: 2병</div>
+            <div class="app-button">귀가 시간: 23:00</div>
+            <div class="app-button">귀가 장소 설정</div>
+            <p style="text-align: center; margin: 0.0001rem 0;">안전 설정</p>
+            <div class="app-button">SOS 연락처: 김철수</div>
+            <div class="app-button">음주단계 알림 설정</div>
+            <div style="margin-top: auto; text-align: center;">
+                <div class="app-button" style="background-color: #ff66b3;">음주 시작하기</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="app-screen">
+        <div class="app-content">
+            <div class="app-header">음주 중 모니터링</div>
+            <div style="text-align: center; margin: 0.5rem auto; width: 80px; height: 80px; border-radius: 50%; background: conic-gradient(#5271ff 70%, #ddd 0); position: relative;">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1rem; font-weight: bold;">70%</div>
+            </div>
+            <p style="text-align: center; font-size: 0.8rem;">목표 주량 대비</p>
+            <div style="margin: 0.5rem 0; padding: 0.5rem; background-color: #f0f5ff; border-radius: 10px; font-size: 0.7rem;">
+                ⚠️ 알림: 귀가 시간 30분 전입니다. 곧 귀가를 준비해주세요!
+            </div>
+            <p style="text-align: center; margin: 0.002rem 0;">취기 확인</p>
+            <div class="app-button">문장 타이핑 테스트</div>
+            <div class="app-button">얼굴 인식 테스트</div>
+            <div style="margin-top: auto; text-align: center;">
+                <div class="app-button" style="background-color: #ff5858;">귀가 시작하기</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="app-screen">
+        <div class="app-content">
+            <div class="app-header">귀가 안내</div>
+            <div style="width: 100%; height: 120px; background-color: #e0e0e0; border-radius: 10px; margin: 0.5rem 0; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;">
+                지도 영역
+            </div>
+            <div style="padding: 0.5rem; background-color: #f0f5ff; border-radius: 10px; font-size: 0.7rem; margin: 0.5rem 0;">
+                예상 귀가 시간: 23:30<br>
+                이동 거리: 2.3km<br>
+                추천 이동 수단: 택시
+            </div>
+            <div class="app-button">택시 호출하기</div>
+            <div class="app-button">대중교통 경로 안내</div>
+            <div class="app-button">도보 안전 경로</div>
+            <div style="margin-top: auto; text-align: center;">
+                <div class="app-button" style="background-color: #ff66b3;">SOS 연락처 호출</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="app-screen">
+        <div class="app-content">
+            <div class="app-header">음주 리포트</div>
+            <div style="text-align: center; margin: 0.5rem 0; font-size: 0.8rem;">2025년 4월 2주차</div>
+            <div style="width: 100%; height: 70px; margin: 0.5rem 0;">
+                <svg viewBox="0 0 160 70" width="160" height="70">
+                    <rect x="10" y="40" width="15" height="20" fill="#5271ff" />
+                    <rect x="35" y="10" width="15" height="50" fill="#5271ff" />
+                    <rect x="60" y="30" width="15" height="30" fill="#5271ff" />
+                    <rect x="85" y="0" width="15" height="60" fill="#ff66b3" />
+                    <rect x="110" y="20" width="15" height="40" fill="#5271ff" />
+                    <rect x="135" y="35" width="15" height="25" fill="#5271ff" />
+                    
+                    <text x="17" y="65" text-anchor="middle" font-size="8">월</text>
+                    <text x="42" y="65" text-anchor="middle" font-size="8">화</text>
+                    <text x="67" y="65" text-anchor="middle" font-size="8">수</text>
+                    <text x="92" y="65" text-anchor="middle" font-size="8">목</text>
+                    <text x="117" y="65" text-anchor="middle" font-size="8">금</text>
+                    <text x="142" y="65" text-anchor="middle" font-size="8">토</text>
+                </svg>
+            </div>
+            <div style="padding: 0.4rem; background-color: #f0f5ff; border-radius: 10px; font-size: 0.65rem; margin-bottom: 0.4rem;">
+                <div style="font-weight: bold; margin-bottom: 0.2rem;">음주 경향 분석</div>
+                - 평균 귀가 시간: 23:45<br>
+                - 주간 목표 달성율: 85%<br>
+                - 음주 성향: "안전귀가 프로"
+            </div>
+            <div style="padding: 0.4rem; background-color: #ffe8e8; border-radius: 10px; font-size: 0.65rem; margin-top: 0;">
+                💡 Tip: 목요일에 과음 경향이 있습니다.<br>목요일 음주량 조절을 추천합니다.
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.app-screens {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+    padding: 0 1rem;
+}
+
+.app-screen {
+    width: 180px;
+    height: 360px;
+    background-color: #f8f8f8;
+    border-radius: 20px;
+    border: 10px solid #333;
+    overflow: hidden;
+    margin: 1rem;
+}
+
+.app-content {
+    height: 100%;
+    background-color: white;
+    padding: 1rem 0.5rem;
+    font-size: 0.7rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-header {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #5271ff;
+}
+
+.app-button {
+    background-color: #5271ff;
+    color: white;
+    border-radius: 20px;
+    padding: 0.3rem;
+    text-align: center;
+    margin: 0.3rem 0;
+    font-size: 0.7rem;
+}
+
+/* 특별히 리포트 화면에 최적화된 스타일 */
+.app-screen:nth-child(4) .app-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+@media (max-width: 768px) {
+    .app-screen {
+        width: 160px;
+        height: 320px;
+    }
+    
+    .app-content {
+        padding: 0.8rem 0.4rem;
+        font-size: 0.65rem;
+    }
+    
+    .app-header {
+        font-size: 0.8rem;
+    }
+}
+</style>
+            
+            <h2>앱 주요 기능</h2>
+            <div class="step-container">
+                <div class="step-box">
+                    <div class="step-number">1</div>
+                    <h3>음주 전 설정</h3>
+                    <ul>
+                        <li>목표 주량 및 귀가 시간 설정</li>
+                        <li>안전 설정<br>(리마인더, SOS 연락처)</li>
+                        <li>취기 감별 기준 설정</li>
+                    </ul>
+                </div>
+                <div class="step-box">
+                    <div class="step-number">2</div>
+                    <h3>음주 중 모니터링</h3>
+                    <ul>
+                        <li>알코올 측정 및 알림</li>
+                        <li>단계별 취기 테스트</li>
+                        <li>즐거운 음주 보조 기능</li>
+                    </ul>
+                </div>
+                <div class="step-box">
+                    <div class="step-number">3</div>
+                    <h3>안전한 귀가 지원</h3>
+                    <ul>
+                        <li>안전 경로 안내</li>
+                        <li>이동수단 추천 및 호출</li>
+                        <li>안전 귀가 알림</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="bubble">
+                <h3>AI 모델 활용</h3>
+                <ul>
+                    <li><strong>텍스트 분석:</strong> 문장 타이핑 정확도 측정으로 인지 기능 판단</li>
+                    <li><strong>음성 분석:</strong> 발화 정확도와 패턴으로 취기 정도 파악 (93% 정확도)</li>
+                    <li><strong>이미지 인식:</strong> 얼굴 붉기, 눈 상태 등으로 취기 감별</li>
+                    <li><strong>행동 패턴 분석:</strong> 사용자별 음주 습관 학습 및 예측</li>
+                </ul>
+            </div>
+            
+            <div class="img-container">
+                <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; max-height: 450px;">
+                    <!-- 데이터 흐름도 -->
+                    <circle cx="100" cy="225" r="60" fill="#f0f5ff" stroke="#5271ff" stroke-width="2" />
+                    <text x="100" y="215" text-anchor="middle" font-size="14" font-weight="bold">데이터 수집</text>
+                    <text x="100" y="235" text-anchor="middle" font-size="12">센서, 입력, 인식</text>
+                    
+                    <polygon points="180,225 200,215 200,235" fill="#5271ff" />
+                    <line x1="160" y1="225" x2="200" y2="225" stroke="#5271ff" stroke-width="2" />
+                    
+                    <circle cx="300" cy="225" r="60" fill="#f0f5ff" stroke="#5271ff" stroke-width="2" />
+                    <text x="300" y="215" text-anchor="middle" font-size="14" font-weight="bold">AI 분석</text>
+                    <text x="300" y="235" text-anchor="middle" font-size="12">패턴 인식, 예측</text>
+                    
+                    <polygon points="380,225 400,215 400,235" fill="#5271ff" />
+                    <line x1="360" y1="225" x2="400" y2="225" stroke="#5271ff" stroke-width="2" />
+                    
+                    <circle cx="500" cy="225" r="60" fill="#f0f5ff" stroke="#5271ff" stroke-width="2" />
+                    <text x="500" y="215" text-anchor="middle" font-size="14" font-weight="bold">행동 추천</text>
+                    <text x="500" y="235" text-anchor="middle" font-size="12">알림, 가이드</text>
+                    
+                    <polygon points="580,225 600,215 600,235" fill="#5271ff" />
+                    <line x1="560" y1="225" x2="600" y2="225" stroke="#5271ff" stroke-width="2" />
+                    
+                    <circle cx="700" cy="225" r="60" fill="#f0f5ff" stroke="#5271ff" stroke-width="2" />
+                    <text x="700" y="215" text-anchor="middle" font-size="14" font-weight="bold">안전 확인</text>
+                    <text x="700" y="235" text-anchor="middle" font-size="12">귀가 완료, 보고</text>
+
+                    <!-- 설명 텍스트 -->
+                    <foreignObject x="50" y="320" width="150" height="100">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 11px; background-color: #f0f5ff; padding: 8px; border-radius: 8px;">
+                            - 음주 측정 데이터<br>
+                            - 음성/타이핑 입력<br>
+                            - 얼굴 인식<br>
+                            - 위치 정보
+                        </div>
+                    </foreignObject>
+
+                    <foreignObject x="225" y="320" width="150" height="100">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 11px; background-color: #f0f5ff; padding: 8px; border-radius: 8px;">
+                            - 음주도 분석<br>
+                            - 행동 패턴 학습<br>
+                            - 위험도 평가<br>
+                            - 사용자 맞춤화
+                        </div>
+                    </foreignObject>
+
+                    <foreignObject x="425" y="320" width="150" height="100">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 11px; background-color: #f0f5ff; padding: 8px; border-radius: 8px;">
+                            - 시간별 알림<br>
+                            - 안전 귀가 경로<br>
+                            - 교통수단 추천<br>
+                            - SOS 알림 발송
+                        </div>
+                    </foreignObject>
+
+                    <foreignObject x="625" y="320" width="150" height="100">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 11px; background-color: #f0f5ff; padding: 8px; border-radius: 8px;">
+                            - 안전 귀가 확인<br>
+                            - 보호자 알림<br>
+                            - 음주 데이터 기록<br>
+                            - 주간/월간 리포트
+                        </div>
+                    </foreignObject>
+
+                    <!-- 연결선 -->
+                    <line x1="100" y1="285" x2="100" y2="320" stroke="#5271ff" stroke-width="1" stroke-dasharray="3,2" />
+                    <line x1="300" y1="285" x2="300" y2="320" stroke="#5271ff" stroke-width="1" stroke-dasharray="3,2" />
+                    <line x1="500" y1="285" x2="500" y2="320" stroke="#5271ff" stroke-width="1" stroke-dasharray="3,2" />
+                    <line x1="700" y1="285" x2="700" y2="320" stroke="#5271ff" stroke-width="1" stroke-dasharray="3,2" />
+                </svg>
+                <p class="caption">BACyouHome 앱의 데이터 처리 및 AI 활용 흐름도 (출처: 'Beyond breathalyzers: AI-powered speech analysis for alcohol intoxication detection', 2024)</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+<!-- 섹션 7: 서비스 개요 및 기능 -->
+<section class="section" id="service">
+    <div class="container">
+        <h1>서비스 개요 및 기능</h1>
+        
+        <div class="chart-container">
+            <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; max-height: 300px;">
+                <!-- 타임라인 화살표 -->
+                <line x1="100" y1="150" x2="700" y2="150" stroke="#5271ff" stroke-width="3" />
+                <polygon points="700,150 680,140 680,160" fill="#5271ff" />
+                
+                <!-- 음주 전 -->
+                <circle cx="200" cy="150" r="15" fill="#5271ff" />
+                <text x="200" y="190" text-anchor="middle" font-size="16" font-weight="bold">음주 전</text>
+                
+                <!-- 음주 중 -->
+                <circle cx="400" cy="150" r="15" fill="#ff66b3" />
+                <text x="400" y="190" text-anchor="middle" font-size="16" font-weight="bold">음주 중</text>
+                
+                <!-- 음주 후 -->
+                <circle cx="600" cy="150" r="15" fill="#34d399" />
+                <text x="600" y="190" text-anchor="middle" font-size="16" font-weight="bold">음주 후</text>
+                
+                <!-- 설명 텍스트 -->
+                <foreignObject x="120" y="50" width="160" height="100">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 12px; background-color: #f0f5ff; padding: 10px; border-radius: 10px; height: auto; width: 100%; box-sizing: border-box;">
+                        - 목표 설정<br>
+                        - 알림 시간 설정<br>
+                        - SOS 연락처 등록<br>
+                        - 취기 측정 기준 설정
+                    </div>
+                </foreignObject>
+                
+                <foreignObject x="320" y="50" width="160" height="100">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 12px; background-color: #ffe0f0; padding: 10px; border-radius: 10px; height: auto; width: 100%; box-sizing: border-box;">
+                        - 정기적 리마인더<br>
+                        - 취기 측정 테스트<br>
+                        - 술자리 보조 기능<br>
+                        - 단계별 안전 조치
+                    </div>
+                </foreignObject>
+                
+                <foreignObject x="520" y="50" width="160" height="100">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 12px; background-color: #e0f0e0; padding: 10px; border-radius: 10px; height: auto; width: 100%; box-sizing: border-box;">
+                        - 안전 귀가 경로 안내<br>
+                        - 차량/택시 연결<br>
+                        - 음주운전 방지<br>
+                        - 안전 귀가 알림
+                    </div>
+                </foreignObject>
+                
+                <!-- 연결선 -->
+                <line x1="200" y1="135" x2="200" y2="90" stroke="#5271ff" stroke-width="1" stroke-dasharray="3,2" />
+                <line x1="400" y1="135" x2="400" y2="90" stroke="#ff66b3" stroke-width="1" stroke-dasharray="3,2" />
+                <line x1="600" y1="135" x2="600" y2="90" stroke="#34d399" stroke-width="1" stroke-dasharray="3,2" />
+                
+                <!-- 리포트 영역 -->
+                <rect x="250" y="220" width="300" height="60" rx="10" fill="#f0f0e0" stroke="#d4b106" stroke-width="1" />
+                <text x="400" y="250" text-anchor="middle" font-size="14" font-weight="bold">주간/월간 음주 리포트 생성</text>
+                <text x="400" y="270" text-anchor="middle" font-size="12">음주 습관 분석 및 건강한 음주 가이드</text>
+            </svg>
+            <p class="caption">BACyouHome 서비스 전체 흐름도 (출처: 자체 제작, 2025)</p>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section" id="features">
+    <div class="container">
+        <h2>1. 음주 전 서비스</h2>
+        <div class="flex-container" style="flex-wrap: wrap;">
+            <div style="flex: 3; min-width: 300px;">
+                <ul>
+                    <li><strong>목표 설정:</strong> 일간, 주간, 월간 음주횟수 및 주량 목표 설정</li>
+                    <li><strong>알림 설정:</strong> 리마인더 알림 간격 설정 (귀가 1시간 전, 30분 전 등)</li>
+                    <li><strong>취기 감별 기준:</strong> 문장 타이핑 정확도, 발화 정확도, 얼굴 붉기 등 설정</li>
+                    <li><strong>취함 행동 조치 단계 설정:</strong>
+                        <ol>
+                            <li>1단계: 간격에 맞춘 리마인더 알림만 전송</li>
+                            <li>2단계: 리마인더 + 목걸이 음주 측정 + 문장 타이핑 정확도 확인</li>
+                            <li>3단계: 2단계 + 문장 발화 정확도 + 얼굴 객체인식</li>
+                        </ol>
+                    </li>
+                    <li><strong>안전 설정:</strong> SOS 알림 설정, 음주중 절대 연락 금지 연락처 지정</li>
+                    <li><strong>차량 연동:</strong> 일부 스마트카 API 연동을 통한 차량 시동 잠금 설정</li>
+                </ul>
+            </div>
+            
+            <div style="flex: 2; min-width: 250px;">
+                <div class="app-screen" style="margin: 0 auto;">
+                    <div class="app-content">
+                        <div class="app-header">음주 전 설정</div>
+                        <div style="padding: 0.3rem; background-color: #f0f5ff; border-radius: 10px; font-size: 0.7rem; margin: 0.3rem 0;">
+                            <strong>목표 설정</strong><br>
+                            - 오늘의 주량: <span style="color: #5271ff;">2병</span><br>
+                            - 귀가 예정: <span style="color: #5271ff;">23:00</span>
+                        </div>
+                        
+                        <div style="padding: 0.3rem; background-color: #f0f5ff; border-radius: 10px; font-size: 0.7rem; margin: 0.3rem 0;">
+                            <strong>취기 감별 설정</strong><br>
+                            <input type="checkbox" checked style="transform: scale(0.7);"> 문장 타이핑<br>
+                            <input type="checkbox" checked style="transform: scale(0.7);"> 음성 발화<br>
+                            <input type="checkbox" checked style="transform: scale(0.7);"> 얼굴 인식
+                        </div>
+                        
+                        <div style="padding: 0.3rem; background-color: #f0f5ff; border-radius: 10px; font-size: 0.7rem; margin: 0.3rem 0;">
+                            <strong>안전 설정</strong><br>
+                            - SOS 연락처: 김철수<br>
+                            - 행동 조치: <span style="color: #5271ff;">2단계</span>
+                        </div>
+                        
+                        <div style="margin-top: auto; text-align: center;">
+                            <div class="app-button" style="background-color: #34d399;">설정 저장</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2>2. 음주 중 서비스</h2>
+        <div class="bubble">
+            <ul>
+                <li><strong>음주 시작 버튼 활성화:</strong> 귀가 예정 시간, 예정 장소, 취함 행동 조치 단계 선택</li>
+                <li><strong>정기적 알림:</strong> 사용자가 설정한 알림 간격대로 귀가 시간 리마인더 전송</li>
+                <li><strong>취기 측정 및 대응:</strong> 단계별 조치 실행 (알림, 타이핑 테스트, 음성 테스트, 얼굴인식 등)</li>
+                <li><strong>보호 조치:</strong> AI 분석으로 취기 감지시 지정 연락처로 SOS 알림 전송</li>
+                <li><strong>음주 보조 기능:</strong> 술게임, 술자리 스몰토크 주제 추천, 안주 추천 등 제공</li>
+            </ul>
+        </div>
+        
+        <div class="flex-container" style="align-items: flex-start;">
+            <div style="flex: 1;">
+                <h3>음주 테스트 화면</h3>
+                <div style="background-color: #f8f8f8; border-radius: 15px; padding: 1rem; margin: 1rem 0;">
+                    <p style="text-align: center; font-weight: bold; margin-bottom: 0.5rem;">문장 타이핑 테스트</p>
+                    <div style="background-color: white; border: 1px solid #ddd; border-radius: 10px; padding: 0.5rem; margin: 0.5rem 0; min-height: 60px; font-size: 0.9rem;">
+                        다음 문장을 입력해주세요:
+                        <p style="color: #5271ff; margin: 0.5rem 0;">"바깥에 비가 오니 우산을 가져가야겠다"</p>
+                    </div>
+                    <div style="background-color: white; border: 1px solid #ddd; border-radius: 10px; padding: 0.5rem; margin: 0.5rem 0; min-height: 60px; font-size: 0.9rem; color: #666;">
+                        바꺫에 비가 오니 우산을 가져가야것다
+                    </div>
+                    <div style="text-align: center; padding: 0.5rem; background-color: #ffe8e8; border-radius: 10px; margin-top: 1rem;">
+                        타이핑 정확도: <strong>76%</strong> (주의 단계)
+                    </div>
+                </div>
+            </div>
+            
+            <div style="flex: 1;">
+                <h3>얼굴 인식 테스트</h3>
+                <div style="background-color: #f8f8f8; border-radius: 15px; padding: 1rem; margin: 1rem 0; text-align: center;">
+                    <div style="width: 150px; height: 150px; background-color: #ddd; border-radius: 10px; margin: 0 auto; position: relative;">
+                        <svg viewBox="0 0 100 100" width="150" height="150">
+                            <circle cx="50" cy="50" r="40" fill="#ffb3b3" stroke="#ff6666" stroke-width="1" />
+                            <circle cx="35" cy="40" r="5" fill="#333" />
+                            <circle cx="65" cy="40" r="5" fill="#333" />
+                            <path d="M35,65 Q50,75 65,65" fill="none" stroke="#333" stroke-width="2" />
+                        </svg>
+                        <div style="position: absolute; top: 10px; right: 10px; width: 20px; height: 20px; border-radius: 50%; background-color: #ff5858;"></div>
+                    </div>
+                    <div style="text-align: center; padding: 0.5rem; background-color: #ffe8e8; border-radius: 10px; margin-top: 1rem;">
+                        얼굴 분석: <strong>취기 감지됨</strong> (얼굴 붉기 증가, 눈 초점 저하)
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2>3. 음주 후 서비스</h2>
+        <div class="step-container">
+            <div class="step-box">
+                <div class="step-number">1</div>
+                <h3>음주운전 방지</h3>
+                <p>차량 소지시 원격 시동 잠금 기능 및 대리운전 자동 연결</p>
+            </div>
+            <div class="step-box">
+                <div class="step-number">2</div>
+                <h3>안전 귀가 경로</h3>
+                <p>택시/대중교통 앱 연동 및 안전한 도보 경로 안내</p>
+            </div>
+            <div class="step-box">
+                <div class="step-number">3</div>
+                <h3>귀가 완료 알림</h3>
+                <p>지정 장소 도착 시 보호자에게 안전 귀가 완료 알림 전송</p>
+            </div>
+        </div>
+        
+        <h2>4. 주간/월간 음주 리포트</h2>
+        <div class="img-container" style="margin: 2rem auto;">
+            <div style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                <h3 style="text-align: center; margin-bottom: 20px; color: #5271ff;">4월 2주차 음주 리포트</h3>
+                
+                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+                    <!-- 차트 영역 -->
+                    <div style="flex: 1; min-width: 300px; padding: 10px;">
+                        <div style="background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                            <svg viewBox="0 0 360 220" width="100%" height="220">
+                                <!-- X축과 Y축 -->
+                                <line x1="40" y1="180" x2="320" y2="180" stroke="#ddd" stroke-width="1" />
+                                <line x1="40" y1="40" x2="40" y2="180" stroke="#ddd" stroke-width="1" />
+                                
+                                <!-- 차트 데이터 -->
+                                <rect x="60" y="160" width="20" height="20" fill="#5271ff" />
+                                <rect x="100" y="130" width="20" height="50" fill="#5271ff" />
+                                <rect x="140" y="140" width="20" height="40" fill="#5271ff" />
+                                <rect x="180" y="100" width="20" height="80" fill="#ff66b3" />
+                                <rect x="220" y="120" width="20" height="60" fill="#5271ff" />
+                                <rect x="260" y="150" width="20" height="30" fill="#5271ff" />
+                                <rect x="300" y="170" width="20" height="10" fill="#e0e0e0" />
+                                
+                                <!-- 차트 레이블 -->
+                                <text x="70" y="200" text-anchor="middle" font-size="12">월</text>
+                                <text x="110" y="200" text-anchor="middle" font-size="12">화</text>
+                                <text x="150" y="200" text-anchor="middle" font-size="12">수</text>
+                                <text x="190" y="200" text-anchor="middle" font-size="12">목</text>
+                                <text x="230" y="200" text-anchor="middle" font-size="12">금</text>
+                                <text x="270" y="200" text-anchor="middle" font-size="12">토</text>
+                                <text x="310" y="200" text-anchor="middle" font-size="12">일</text>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- 분석 내용 -->
+                    <div style="flex: 1; min-width: 300px; padding: 10px;">
+                        <div style="background-color: #f0f5ff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: #5271ff;">음주 경향 분석</h4>
+                            <ul style="padding-left: 20px; margin-bottom: 10px;">
+                                <li style="margin-bottom: 5px;">주간 음주 횟수: 6회</li>
+                                <li style="margin-bottom: 5px;">평균 귀가 시간: 23:15</li>
+                                <li style="margin-bottom: 5px;">목표 달성률: 85%</li>
+                                <li style="margin-bottom: 5px;">음주 성향: "안전귀가 프로"</li>
+                            </ul>
+                            
+                            <h4 style="margin: 15px 0 10px 0; color: #5271ff;">개선 제안</h4>
+                            <div style="padding: 10px; background-color: #ffe8e8; border-radius: 8px; font-weight: normal;">
+                                목요일에 과음 경향이 있습니다. 목요일 음주량 조절을 추천합니다.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="caption">BACyouHome 주간 음주 리포트 예시 (데이터 기반: 질병관리청 음주 행태 조사, 2023)</p>
+        </div>
+        
+        <style>
+        /* 리포트 섹션 추가 스타일 */
+        .img-container h3, .img-container h4 {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        
+        @media (max-width: 768px) {
+            .img-container div[style*="display: flex"] {
+                flex-direction: column;
+            }
+        }
+        </style>
+</section>
+
+<div class="divider"></div>
+
+<!-- 섹션 8: 주요 기능 및 확장성 -->
+<section class="section" id="features">
+    <div class="container">
+        <h1>주요 기능 및 확장성</h1>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#5271ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                        <line x1="4" y1="22" x2="4" y2="15"></line>
+                    </svg>
+                </div>
+                <h3>GPS 기반 안전 경로</h3>
+                <p>음주 상태에 따라 가장 안전한 귀가 경로를 추천하고, 큰 길 위주로 안내합니다.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#5271ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
+                <h3>음주운전 방지</h3>
+                <p>스마트카 API 연동을 통해 취기 감지 시 차량 시동을 원격으로 제한하는 기능을 제공합니다.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#5271ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                </div>
+                <h3>실시간 알림 시스템</h3>
+                <p>사용자의 설정에 따라 귀가 시간, 취기 정도, 안전 상태 등을 실시간으로 알립니다.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#5271ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <h3>AI 기반 취기 감별</h3>
+                <p>다양한 데이터를 AI로 분석하여 개인 맞춤형 취기 정도를 정확하게 판단합니다.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#5271ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                </div>
+                <h3>음주 습관 분석</h3>
+                <p>장기적인 음주 패턴을 분석하여 건강한 음주 습관 형성을 도와줍니다.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#5271ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                    </svg>
+                </div>
+                <h3>서비스 확장성</h3>
+                <p>보건소, 학교 등 기관 연계 및 금주 도우미로의 확장이 가능합니다.</p>
+            </div>
+        </div>
+        
+        <h2>윤리적 고려사항과 해소방안</h2>
+        <div class="flex-container" style="flex-wrap: wrap; align-items: flex-start;">
+            <div style="flex: 1; min-width: 250px;">
+                <div class="alert-box">
+                    <h3>개인정보보호 이슈</h3>
+                    <ul>
+                        <li>음주 데이터, 위치 정보 등 민감 정보 처리</li>
+                        <li>SOS 연락처 및 가족에게 정보 공유 문제</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="flex: 1; min-width: 250px;">
+                <div class="bubble">
+                    <h3>해소방안</h3>
+                    <ul>
+                        <li>개인정보 암호화 및 최소 수집 원칙 적용</li>
+                        <li>사용자 동의 기반 정보 공유 시스템</li>
+                        <li>데이터 자동 삭제 기능 구현</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="flex: 1; min-width: 250px;">
+                <div class="alert-box">
+                    <h3>의료기기/측정기 관련 법적규제</h3>
+                    <ul>
+                        <li>알코올 측정의 정확도 및 법적 효력 문제</li>
+                        <li>의료기기 분류 가능성</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="flex: 1; min-width: 250px;">
+                <div class="bubble">
+                    <h3>해소방안</h3>
+                    <ul>
+                        <li>참고용 측정임을 명시</li>
+                        <li>법적 측정기와 차별화된 포지션</li>
+                        <li>관련 법규 검토 및 규제 준수</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 섹션 9: 기대효과 및 확장성 -->
+<section class="section" id="expect">
+    <div class="container">
+        <h1>기대효과 및 서비스의 확장성</h1>
+        
+        <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-number">30%</div>
+                <div class="stat-label">음주 관련 사고<br>감소 예상<br>(출처: 도로교통공단, 2023)</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">65%</div>
+                <div class="stat-label">사용자 자기통제<br>효과 증가<br>(출처: 질병관리청, 2024)</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">85%</div>
+                <div class="stat-label">보호자 안심감<br>상승 효과<br>(출처: 자체 설문조사, 2025)</div>
+            </div>
+        </div>
+        
+        <h2>기대효과</h2>
+        <div class="flex-container" style="flex-wrap: wrap; align-items: flex-start;">
+            <div style="flex: 1; min-width: 300px;">
+                <h3>직접적 효과</h3>
+                <ul>
+                    <li><strong>음주 후 안전사고 감소:</strong> 사전 계획과 알림으로 과도한 음주 방지</li>
+                    <li><strong>자율적인 귀가 습관 형성:</strong> 자기 통제력 향상을 통한 건강한 음주 문화 형성</li>
+                    <li><strong>보호자/지인 안심:</strong> 실시간 상태 공유로 불필요한 걱정 감소</li>
+                </ul>
+            </div>
+            
+            <div style="flex: 1; min-width: 300px;">
+                <h3>사회적 효과</h3>
+                <ul>
+                    <li><strong>건강한 음주 문화 형성:</strong> 서비스 자체가 경각심 유발 효과</li>
+                    <li><strong>음주 관련 범죄 예방:</strong> 취약한 상태에서의 범죄 노출 감소</li>
+                    <li><strong>사회적 비용 절감:</strong> 음주 관련 사고 및 의료 비용 감소</li>
+                    <li><strong>데이터 기반 정책:</strong> 익명화된 데이터 분석으로 효과적인 음주 정책 수립 지원</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2>서비스의 확장성</h2>
+        <div class="chart-container" style="height: auto; min-height: 550px; margin-bottom: 30px;">
+            <svg viewBox="0 0 800 550" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; max-height: 550px;">
+                <!-- 중앙 서비스 -->
+                <circle cx="400" cy="275" r="60" fill="#f0f5ff" stroke="#5271ff" stroke-width="2" />
+                <text x="400" y="265" text-anchor="middle" font-size="16" font-weight="bold">BACyouHome</text>
+                <text x="400" y="285" text-anchor="middle" font-size="12">기본 서비스</text>
+                
+                <!-- 확장 1: 플랫폼 확장 -->
+                <circle cx="200" cy="150" r="50" fill="#ffe0f0" stroke="#ff66b3" stroke-width="2" />
+                <text x="200" y="145" text-anchor="middle" font-size="14" font-weight="bold">앱 플랫폼</text>
+                <text x="200" y="165" text-anchor="middle" font-size="10">소셜, 리워드 시스템</text>
+                <line x1="339" y1="240" x2="257" y2="175" stroke="#ddd" stroke-width="2" stroke-dasharray="5,3" />
+                
+                <!-- 확장 2: 금주 도우미 -->
+                <circle cx="600" cy="150" r="50" fill="#e0f0e0" stroke="#34d399" stroke-width="2" />
+                <text x="600" y="145" text-anchor="middle" font-size="14" font-weight="bold">금주 도우미</text>
+                <text x="600" y="165" text-anchor="middle" font-size="10">맞춤형 건강 관리</text>
+                <line x1="461" y1="240" x2="543" y2="175" stroke="#ddd" stroke-width="2" stroke-dasharray="5,3" />
+                
+                <!-- 확장 3: 기관 연계 -->
+                <circle cx="200" cy="400" r="50" fill="#f0f0e0" stroke="#d4b106" stroke-width="2" />
+                <text x="200" y="395" text-anchor="middle" font-size="14" font-weight="bold">기관 연계</text>
+                <text x="200" y="415" text-anchor="middle" font-size="10">보건소, 학교, 기업</text>
+                <line x1="339" y1="310" x2="257" y2="375" stroke="#ddd" stroke-width="2" stroke-dasharray="5,3" />
+                
+                <!-- 확장 4: 고위험군 모니터링 -->
+                <circle cx="600" cy="400" r="50" fill="#e6f0ff" stroke="#3b82f6" stroke-width="2" />
+                <text x="600" y="395" text-anchor="middle" font-size="14" font-weight="bold">고위험군</text>
+                <text x="600" y="415" text-anchor="middle" font-size="10">모니터링, 치료 지원</text>
+                <line x1="461" y1="310" x2="543" y2="375" stroke="#ddd" stroke-width="2" stroke-dasharray="5,3" />
+                
+                <!-- 플랫폼 확장 설명 -->
+                <foreignObject x="80" y="0" width="240" height="100">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 12px; background-color: #ffe0f0; padding: 10px; border-radius: 8px; height: auto;">
+                        <strong>플랫폼 확장:</strong><br>
+                        - 건전한 음주 문화 커뮤니티<br>
+                        - 안전 귀가 포인트 리워드<br>
+                        - 음주문화 개선 캠페인
+                    </div>
+                </foreignObject>
+                
+                <!-- 금주 도우미 설명 -->
+                <foreignObject x="480" y="0" width="240" height="100">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 12px; background-color: #e0f0e0; padding: 10px; border-radius: 8px; height: auto;">
+                        <strong>금주 도우미:</strong><br>
+                        - 금주 계획 및 목표 설정<br>
+                        - 건강 상태 모니터링<br>
+                        - 심리 상담 서비스 연계
+                    </div>
+                </foreignObject>
+                
+                <!-- 기관 연계 설명 -->
+                <foreignObject x="80" y="450" width="240" height="100">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 12px; background-color: #f0f0e0; padding: 10px; border-radius: 8px; height: auto;">
+                        <strong>보건소/학교 연계:</strong><br>
+                        - 음주 교육 프로그램<br>
+                        - 청소년 음주 예방<br>
+                        - 기업 직원 건강 관리
+                    </div>
+                </foreignObject>
+                
+                <!-- 고위험군 설명 -->
+                <foreignObject x="480" y="450" width="240" height="100">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 12px; background-color: #e6f0ff; padding: 10px; border-radius: 8px; height: auto;">
+                        <strong>고위험군 특화 서비스:</strong><br>
+                        - 알코올 의존증 관리<br>
+                        - 1인 가구 안전 케어<br>
+                        - 치료 프로그램 연계
+                    </div>
+                </foreignObject>
+            </svg>
+            <p class="caption">BACyouHome 서비스 확장 가능성 (출처: 서울특별시, '안심귀가 지원 - 안심이 앱' 확장성 연구, 2024)</p>
+        </div>
+        
+        <div class="bubble">
+            <h3>확장 방향</h3>
+            <ol>
+                <li><strong>앱 플랫폼으로 확장:</strong> 음주 관련 소셜 네트워크, 건전한 음주 문화 형성 커뮤니티</li>
+                <li><strong>개인 맞춤형 금주 도우미:</strong> 장기적 음주 관리, 건강 관리와 연계한 확장 서비스</li>
+                <li><strong>기관 연계 서비스:</strong> 보건소, 학교 등 공공기관과 연계한 음주 교육 및 관리 프로그램</li>
+                <li><strong>고위험군 모니터링:</strong> 알코올의존증 치료 대상자, 청소년 음주 지도, 1인 가구 안전 케어</li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<style>
+/* 섹션 9용 추가 스타일 */
+#expect .chart-container {
+    overflow: visible;
+    margin-top: 2rem;
+    padding: 0;
+}
+
+#expect .chart-container svg {
+    display: block;
+    margin: 0 auto;
+}
+
+#expect .chart-container foreignObject div {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+    #expect .chart-container {
+        min-height: 650px; /* 모바일에서는 더 높게 설정 */
+    }
+}
+</style>
+
+<div class="divider"></div>
+
+<footer>
+    <p>BACyouHome - 음주 후 안전한 귀가를 도와주는 AI 기반 솔루션</p>
+    <p>2025년 4월</p>
+    
+    <div style="margin: 2rem 0;">
+        <h3 style="text-align: center; margin-bottom: 1rem;">데이터 출처</h3>
+        <ul style="max-width: 800px; margin: 0 auto; columns: 2; column-gap: 2rem; font-size: 0.9rem;">
+            <li>음주 관련 통계: 질병관리청, '성인 음주행동 변화의 연령-기간-코호트 분석', 2023</li>
+            <li>음주율 데이터: 질병관리청, '남자 40-50대, 여자 20-30대 음주행태 개선 필요', 2023</li>
+            <li>음주 사고 통계: 도로교통공단, '음주운전 실태 데이터 분석', 2023</li>
+            <li>인지기능 저하 그래프: 'Do Voice Recordings Reveal whether a Person Is Intoxicated?', NCBI, 2023</li>
+            <li>MQ-3 센서 정확도: 'MQ3 alcohol sensor-Based Sensing of Alcohol At Room Temperature', Neuroquantology, 2023</li>
+            <li>안전귀가 서비스 현황: 서울특별시, '안심귀가 지원 - 안심이 앱', 2024</li>
+            <li>음성 인식 정확도: 'Real-time Speech-based Intoxication Detection System', ResearchGate, 2024</li>
+            <li>GPS 정확도 데이터: 'Improvement of GPS Precise Point Positioning Accuracy in Urban Canyons', ResearchGate, 2024</li>
+            <li>음주 경향 분석: '주취상태 범죄자의 재범에 영향을 미치는 요인 연구', 월간교정, 2024</li>
+            <li>음주 감지 AI 정확도: 'Beyond breathalyzers: AI-powered speech analysis for alcohol intoxication detection', ResearchGate, 2024</li>
+            <li>목걸이 디자인 참고: Tiffany & Co. Dog Tag 펜던트, 2024</li>
+            <li>안전 귀가 만족도: 경기도 안전귀가 사용자 만족도 조사, 2023</li>
+        </ul>
+    </div>
+</footer>
